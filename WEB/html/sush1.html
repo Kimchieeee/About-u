@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Note</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --pink-deep: #c946c9;
+            --pink-mid: #dd6bd7;
+            --pink-light: #f19be7;
+            --white: #fffaff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            color: var(--white);
+            font-family: "Quicksand", sans-serif;
+            background:
+                radial-gradient(circle at 78% 18%, rgba(255, 220, 251, 0.18), transparent 28%),
+                linear-gradient(116deg, var(--pink-deep) 0%, var(--pink-mid) 48%, var(--pink-light) 100%);
+        }
+
+        .sakura-petals {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .petal {
+            position: absolute;
+            top: -12vh;
+            width: 12px;
+            height: 8px;
+            border-radius: 100% 0 100% 0;
+            background: linear-gradient(135deg, #fff8ff, #f6b4de);
+            box-shadow: 0 2px 7px rgba(117, 35, 111, 0.2);
+            opacity: 0.72;
+            animation: fall var(--duration) linear var(--delay) infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translate3d(0, -12vh, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate3d(var(--sway), 50vh, 0) rotate(360deg);
+            }
+            100% {
+                transform: translate3d(calc(var(--sway) * -1), 114vh, 0) rotate(720deg);
+            }
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .message-wrap {
+            width: min(820px, 100%);
+            transform: translateY(-2vh);
+        }
+
+        .message {
+            min-height: 4.8em;
+            margin: 0;
+            font-size: clamp(2rem, 4.3vw, 3.7rem);
+            font-weight: 600;
+            line-height: 1.3;
+            letter-spacing: 0;
+            text-wrap: balance;
+            text-shadow: 0 3px 14px rgba(118, 26, 111, 0.14);
+        }
+
+        .message::after {
+            content: "";
+            display: inline-block;
+            width: 3px;
+            height: 0.95em;
+            margin-left: 0.16em;
+            vertical-align: -0.1em;
+            background: rgba(255, 250, 255, 0.9);
+            animation: blink 0.9s step-end infinite;
+        }
+
+        .continue-prompt {
+            display: inline-block;
+            margin: 7rem 0 0;
+            padding: 0.5rem 1rem;
+            color: var(--white);
+            font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+            font-weight: 700;
+            text-decoration: none;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.9s ease, transform 0.9s ease, text-shadow 0.25s ease;
+        }
+
+        .continue-prompt.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .continue-prompt:hover {
+            text-shadow: 0 0 16px rgba(255, 255, 255, 0.7);
+        }
+
+        @keyframes blink {
+            0%,
+            45% {
+                opacity: 1;
+            }
+            46%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .petal {
+                animation: none;
+                opacity: 0.25;
+            }
+
+            .message::after {
+                animation: none;
+            }
+
+            .continue-prompt {
+                transition: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                padding: 1.5rem;
+            }
+
+            .message {
+                min-height: 7.8em;
+            }
+
+            .continue-prompt {
+                margin-top: 5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sakura-petals" aria-hidden="true"></div>
+
+    <main class="page">
+        <section class="message-wrap" aria-label="A personal message">
+            <p class="message" id="typewriter" aria-live="polite"></p>
+            <a class="continue-prompt" id="continuePrompt" href="sush2.html">Click to Continue</a>
+        </section>
+    </main>
+
+    <script>
+        const petalContainer = document.querySelector('.sakura-petals');
+        const typewriter = document.querySelector('#typewriter');
+        const continuePrompt = document.querySelector('#continuePrompt');
+        const message = "This sudden message doesn't mean any pressure for your feelings...";
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        for (let index = 0; index < 30; index += 1) {
+            const petal = document.createElement('span');
+            petal.className = 'petal';
+            petal.style.left = `${Math.random() * 100}%`;
+            petal.style.width = `${8 + Math.random() * 8}px`;
+            petal.style.height = `${6 + Math.random() * 5}px`;
+            petal.style.setProperty('--duration', `${8 + Math.random() * 9}s`);
+            petal.style.setProperty('--delay', `${Math.random() * -14}s`);
+            petal.style.setProperty('--sway', `${-90 + Math.random() * 180}px`);
+        
+            petalContainer.appendChild(petal);
+        }
+
+        function startTypewriter() {
+            typewriter.textContent = '';
+            continuePrompt.classList.remove('visible');
+
+            if (reducedMotion) {
+                typewriter.textContent = message;
+                continuePrompt.classList.add('visible');
+                return;
+            }
+
+            let characterIndex = 0;
+            const typeNextCharacter = () => {
+                typewriter.textContent += message[characterIndex];
+                characterIndex += 1;
+
+                if (characterIndex < message.length) {
+                    const pause = message[characterIndex - 1] === ' ' ? 115 : 82;
+                    window.setTimeout(typeNextCharacter, pause);
+                } else {
+                    window.setTimeout(() => continuePrompt.classList.add('visible'), 850);
+                }
+            };
+
+            window.setTimeout(typeNextCharacter, 1100);
+        }
+
+        startTypewriter();
+    </script>
+</body>
+</html>

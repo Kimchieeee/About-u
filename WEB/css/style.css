@@ -1,0 +1,400 @@
+/* =========================
+   FONT SETUP
+   ========================= */
+
+@font-face {
+    font-family: "Above The Beyond";
+    src: url("font/Above the Beyond Script.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "Briski";
+    src: url("font/BiskiTrial-Regular.otf") format("opentype");
+}
+
+
+/* =========================
+   BASIC RESET
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   PAGE
+   ========================= */
+
+body {
+    width: 100%;
+    min-height: 100vh;
+
+    overflow: hidden;
+
+    background: linear-gradient(
+        110deg,
+        #cc43c8 0%,
+        #df63d4 45%,
+        #ed8ee6 100%
+    );
+
+    font-family: "Briski", sans-serif;
+}
+
+
+/* =========================
+   MAIN CONTAINER (CENTERED)
+   ========================= */
+
+.welcome-page {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers content vertically */
+    align-items: center;     /* Centers content horizontally */
+
+    text-align: center;
+    padding: 20px;
+}
+
+
+/* =========================
+   TITLE
+   ========================= */
+
+h1 {
+    color: white;
+
+    font-family: "Above The Beyond", cursive;
+
+    font-size: clamp(55px, 5.8vw, 45px);
+
+    font-weight: normal;
+
+    line-height: 1;
+
+    white-space: nowrap;
+}
+
+
+/* =========================
+   SUBTITLE
+   ========================= */
+
+.subtitle {
+    margin-top: 25px;
+
+    color: white;
+
+    font-family: "Briski", sans-serif;
+
+    font-size: clamp(20px, 2.6vw, 10px);
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   CANVA "CLARIFY" ANIMATION
+   ========================= */
+
+/* Applied to generated  elements in JS */
+.clarify-text span {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(6px);
+    animation: clarifyAnim 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    white-space: pre; /* Preserves letter and word spacing */
+}
+
+@keyframes clarifyAnim {
+    0% {
+        opacity: 0;
+        filter: blur(14px);
+        transform: translateY(6px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   CHARACTER / GIF
+   ========================= */
+
+.character {
+    width: 400px;
+    height: 320px;
+
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    overflow: hidden;
+
+    /* Smooth appearance */
+    opacity: 0;
+
+    animation: characterAppear 1.2s ease-out 0.8s forwards;
+}
+
+.character img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* =========================
+   GIF ANIMATION
+   ========================= */
+
+@keyframes characterAppear {
+
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   CONTINUE BUTTON
+   ========================= */
+
+.continue-btn {
+    margin-top: 28px;
+
+    width: 250px;
+    height: 70px;
+
+    border: none;
+    border-radius: 50px;
+
+    background: white;
+
+    font-family: "Briski", sans-serif;
+
+    font-size: 45px;
+    font-weight: bold;
+
+    color: #ed4bc7;
+
+    cursor: pointer;
+
+    -webkit-text-stroke: 1.5px #9e3c91;
+
+    box-shadow: none;
+
+    /* Starting state */
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(10px);
+
+    /* Animation */
+    animation: buttonAppear 1.3s ease-out 1.3s forwards;
+
+    /* Smooth hover transitions */
+    transition:
+        transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        box-shadow 0.3s ease,
+        background-color 0.3s ease;
+}
+
+
+/* =========================
+   BUTTON ANIMATION
+   ========================= */
+
+@keyframes buttonAppear {
+
+    0% {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateY(10px);
+    }
+
+    50% {
+        opacity: 0.6;
+        filter: blur(2px);
+        transform: translateY(4px);
+    }
+
+    100% {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   BUTTON HOVER & CLICK
+   ========================= */
+
+.continue-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+
+    box-shadow: 0 10px 25px rgba(158, 60, 145, 0.35);
+}
+
+.continue-btn:active {
+    transform: translateY(-1px) scale(0.98);
+
+    box-shadow: 0 4px 12px rgba(158, 60, 145, 0.2);
+}
+
+
+/* =========================
+   SECOND PAGE: ENVELOPE & LINK
+   ========================= */
+
+.envelope-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    width: 100%;
+}
+
+.envelope-container {
+    margin-top: 0;
+    width: 650px; /* Increased size for desktop */
+    max-width: 85vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* Fade-in & slight slide up entrance animation */
+    opacity: 0;
+    animation: envelopeAppear 1.2s ease-out 0.2s forwards;
+}
+
+.envelope-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+
+    /* Soft drop shadow under the envelope */
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.25));
+
+    /* Smooth transition for hover effects */
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Hover effect on envelope */
+.envelope-link:hover .envelope-container img {
+    transform: translateY(-5px) scale(1.03);
+    filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.32));
+}
+
+
+/* =========================
+   ENVELOPE FADE-IN ANIMATION
+   ========================= */
+
+@keyframes envelopeAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   SECOND PAGE: CLICK TEXT
+   ========================= */
+
+.click-text {
+    margin-top: 25px;
+    color: white;
+    font-family: "Briski", sans-serif;
+    font-size: clamp(32px, 3.8vw, 44px); /* Slightly bigger font */
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    letter-spacing: 0.5px;
+    
+    /* Smooth hover response */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.envelope-link:hover .click-text {
+    transform: scale(1.06);
+    opacity: 0.95;
+}
+
+.envelope-link:active .click-text {
+    transform: scale(0.97);
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+   ========================= */
+
+@media (max-width: 700px) {
+
+    h1 {
+        font-size: 48px;
+        white-space: normal;
+        padding: 0 20px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        margin-top: 15px;
+    }
+
+    .character {
+        width: 330px;
+        height: 290px;
+        margin-top: 35px;
+    }
+
+    .continue-btn {
+        width: 220px;
+        height: 65px;
+        font-size: 38px;
+    }
+
+    .envelope-container {
+        width: 400px; /* Increased size for mobile */
+        max-width: 90vw;
+    }
+
+    .click-text {
+        font-size: 28px;
+        margin-top: 20px;
+    }
+
+}
