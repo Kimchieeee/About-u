@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envelope - Click to Continue</title>
+    
+    <!-- Link your CSS file -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <main class="welcome-page">
+
+        <!-- Entire envelope + text wrapper link -->
+        <a href="confession.html" class="envelope-link">
+            
+            <!-- Envelope Container / Image -->
+            <div class="envelope-container">
+                <img src="../photo/envelope.png" alt="Envelope with flower seal">
+            </div>
+
+            <!-- Clarify Animated Text -->
+            <p class="click-text clarify-text">Click to Continue</p>
+
+        </a>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // Canva "Clarify" Staggered Blur Reveal Effect
+        document.addEventListener("DOMContentLoaded", () => {
+            const clarifyElements = document.querySelectorAll('.clarify-text');
+
+            clarifyElements.forEach((el, elIndex) => {
+                const text = el.textContent;
+                el.textContent = ''; // Clear static text
+
+                const baseDelay = elIndex * 0.4; 
+
+                [...text].forEach((char, charIndex) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    
+                    // Stagger letter animations by 0.035s intervals
+                    span.style.animationDelay = `${baseDelay + (charIndex * 0.035)}s`;
+                    
+                    el.appendChild(span);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

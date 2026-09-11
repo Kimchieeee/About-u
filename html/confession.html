@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confession</title>
+    
+    <!-- Google Fonts for Cursive Title and Clean Sans-Serif Text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e552db 0%, #d84cd3 50%, #e05adb 100%);
+            background-attachment: fixed;
+            color: #ffffff;
+            scroll-behavior: smooth;
+        }
+
+        .sakura-petals {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .sakura-petal {
+            position: absolute;
+            top: -10vh;
+            width: 13px;
+            height: 9px;
+            border-radius: 100% 0 100% 0;
+            background: linear-gradient(135deg, #fff5fc, #f6a9d8);
+            box-shadow: 0 1px 4px rgba(120, 36, 101, 0.18);
+            opacity: 0.8;
+            animation: sakuraFall var(--fall-duration) linear var(--fall-delay) infinite;
+        }
+
+        @keyframes sakuraFall {
+            0% {
+                transform: translate3d(0, -10vh, 0) rotate(0deg);
+            }
+            50% {
+                transform: translate3d(var(--sway), 50vh, 0) rotate(360deg);
+            }
+            100% {
+                transform: translate3d(calc(var(--sway) * -1), 115vh, 0) rotate(720deg);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .sakura-petal {
+                animation: none;
+                opacity: 0.35;
+            }
+        }
+
+        /* SECTION 1: VINYL PLAYER SECTION */
+        .section-1 {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem 1rem;
+            position: relative;
+        }
+
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Canva-style staggered text reveal */
+        .clarify-text span {
+            display: inline-block;
+            opacity: 0;
+            filter: blur(14px);
+            transform: translateY(6px);
+            animation: clarifyAnim 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            white-space: pre;
+        }
+
+        @keyframes clarifyAnim {
+            0% {
+                opacity: 0;
+                filter: blur(14px);
+                transform: translateY(6px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0);
+                transform: translateY(0);
+            }
+        }
+
+        /* Vinyl Container */
+        .vinyl-wrapper {
+            position: relative;
+            width: 260px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Vinyl Record Styling */
+        .vinyl {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background:
+                repeating-radial-gradient(circle at center, rgba(255,255,255,0.08) 0 1px, transparent 1px 4px),
+                radial-gradient(circle at 35% 30%, #3d3d43 0%, #17171b 35%, #050507 78%, #000 100%);
+            box-shadow: 0 18px 28px rgba(34, 8, 31, 0.42), inset 0 0 0 4px #09090b, inset 0 0 18px rgba(255,255,255,0.08);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .vinyl::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            background: repeating-radial-gradient(circle at center, transparent 0 5px, rgba(255,255,255,0.1) 5.5px 6px, transparent 6.5px 10px);
+            opacity: 0.55;
+            pointer-events: none;
+        }
+
+        .vinyl::after {
+            content: '';
+            position: absolute;
+            inset: 9px 20px 105px 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.28), transparent 55%);
+            transform: rotate(-22deg);
+            pointer-events: none;
+        }
+
+        .vinyl:hover {
+            transform: scale(1.03);
+        }
+
+        /* Spin animation when playing */
+        .vinyl.playing {
+            animation: spin 3.5s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Center Hole & Play Button */
+        .vinyl-center {
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(circle, #17171b 0 7%, #e7a3c6 8% 11%, #b54b83 12% 60%, #7b2d60 61% 66%, #24101d 67% 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid #171219;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.7);
+            z-index: 2;
+        }
+
+        .vinyl-caption {
+            margin-top: 1.25rem;
+            color: rgba(255, 255, 255, 0.92);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 7px rgba(77, 20, 69, 0.35);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 16px solid #ffffff;
+            margin-left: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .pause-icon {
+            width: 14px;
+            height: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pause-icon::before,
+        .pause-icon::after {
+            content: '';
+            width: 4px;
+            height: 100%;
+            background-color: #ffffff;
+            border-radius: 2px;
+        }
+
+        /* Circular Text SVG Wrapper */
+        .curved-text {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .curved-text text {
+            fill: #ffffff;
+            font-size: 13.5px;
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        /* SECTION 2: CONFESSION LETTER SECTION */
+        .section-2 {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 1.5rem;
+            position: relative;
+        }
+
+        .letter-container {
+            max-width: 650px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dear-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            align-self: flex-start;
+        }
+
+        .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            word-break: break-word;
+            text-align: left;
+            padding: 0 1rem;
+            opacity: 0.95;
+        }
+
+        .from-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            align-self: flex-end;
+            margin-top: 1rem;
+        }
+
+        /* Continue Button */
+        .continue-btn-wrapper {
+            margin-top: 3.5rem;
+            text-align: center;
+        }
+
+        .continue-btn {
+            background-color: #ffffff;
+            color: #d84cd3;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 0.7rem 2.8rem;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .continue-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sakura-petals" aria-hidden="true"></div>
+
+    <!-- Hidden Audio Element for "Heaven" by Bryan Adams -->
+    <audio id="bg-music" loop>
+        <source src="../photo/music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- PAGE 1: TITLE & VINYL PLAYER -->
+    <section class="section-1">
+        <h1 class="title clarify-text">Please Continue with a Smile</h1>
+        <p class="subtitle clarify-text">When feelings are meant to unfold</p>
+
+        <div class="vinyl-wrapper">
+            <!-- Vinyl Record -->
+            <div class="vinyl" id="vinyl-btn" onclick="toggleAudio()">
+                <div class="vinyl-center">
+                    <div class="play-icon" id="player-icon"></div>
+                </div>
+            </div>
+
+            <p class="vinyl-caption">Play this while you read</p>
+        </div>
+    </section>
+
+    <!-- PAGE 2: CONFESSION LETTER -->
+    <section class="section-2">
+        <div class="letter-container">
+            <div class="dear-text">Dear, Jay</div>
+
+            <!-- Replace the text below with your actual confession message -->
+            <div class="letter-content">
+                When I first joined the server, I never thought I'd find such a friend. I was shy at first, made jokes like 
+                "Pahingi nito, pahingi n'yan" or "Miss kona sya". And some other jokes. You replied to some sarcastically,
+                I laughed about it, never expecting that we will become such friends.<br><br>
+                When I first joined vc4, I was actually kinda nervous since I don't really know how to act accordingly.
+                At first, I was shocked of how your voice sounds like since I was watching the movie with y'all.
+                I joked about it, but I really liked of how your voice sounds like. When I first opened up to you, I felt
+                comfortable, it was my first time telling someone a story about what was happening with me. For the first time
+                I didn't regret it, more like I felt relieved.<br><br>
+                I know this might sound hilarous, but you are the one I have a crush on. You became a motivation for me. It's not
+                about the face that I yet don't know, but because of your personality, the way you joke around, at the same time being kind,
+                and the way you talk to anyone else. I really like your humor, and I like the time when we will play together, as well
+                as our little interactions. I appreciate you, jay. I hope you don't mind me confessing this to you, and I hope you won't feel awkward about it. I just want to be honest with my feelings.
+            </div>
+
+            <div class="from-text">Sincerely yours, Daniii</div>
+        </div>
+
+        <div class="continue-btn-wrapper">
+            <a href="sush1.html" class="continue-btn">Continue</a>
+        </div>
+    </section>
+
+    <!-- JAVASCRIPT FOR AUDIO & VINYL ANIMATION -->
+    <script>
+        const sakuraContainer = document.querySelector('.sakura-petals');
+
+        for (let index = 0; index < 28; index += 1) {
+            const petal = document.createElement('span');
+            petal.className = 'sakura-petal';
+            petal.style.left = `${Math.random() * 100}%`;
+            petal.style.setProperty('--fall-duration', `${7 + Math.random() * 8}s`);
+            petal.style.setProperty('--fall-delay', `${Math.random() * -12}s`);
+            petal.style.setProperty('--sway', `${-80 + Math.random() * 160}px`);
+            petal.style.transform = `scale(${0.6 + Math.random() * 0.8})`;
+            sakuraContainer.appendChild(petal);
+        }
+
+        // Canva "Clarify" staggered blur reveal effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const clarifyElements = document.querySelectorAll('.clarify-text');
+
+            clarifyElements.forEach((element, elementIndex) => {
+                const text = element.textContent;
+                element.textContent = '';
+                const baseDelay = elementIndex * 0.4;
+
+                [...text].forEach((character, characterIndex) => {
+                    const span = document.createElement('span');
+                    span.textContent = character;
+                    span.style.animationDelay = `${baseDelay + (characterIndex * 0.035)}s`;
+                    element.appendChild(span);
+                });
+            });
+        });
+
+        const audio = document.getElementById('bg-music');
+        const vinyl = document.getElementById('vinyl-btn');
+        const playerIcon = document.getElementById('player-icon');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                vinyl.classList.add('playing');
+                playerIcon.className = 'pause-icon';
+            } else {
+                audio.pause();
+                vinyl.classList.remove('playing');
+                playerIcon.className = 'play-icon';
+            }
+        }
+    </script>
+</body>
+</html>
